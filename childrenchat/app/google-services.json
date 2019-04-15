@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "952701626719",
+    "firebase_url": "https://childrenchat.firebaseio.com",
+    "project_id": "childrenchat",
+    "storage_bucket": "childrenchat.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:952701626719:android:d324f8de1b30eb03",
+        "android_client_info": {
+          "package_name": "itlapps.team8.childrenchat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "952701626719-i7pnm8j9iu0jpg5825ccspgmpjls3boi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "itlapps.team8.childrenchat",
+            "certificate_hash": "aef564434d801a3c835455ae19a4127146270d6a"
+          }
+        },
+        {
+          "client_id": "952701626719-ochofgsmlj2gsea0bl8rob4fstn8mn9p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_aDbk_RqPundnfnfoy8LNmBx94GysGnI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "952701626719-ochofgsmlj2gsea0bl8rob4fstn8mn9p.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

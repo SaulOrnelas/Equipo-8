@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Children Chat</string>
+    <!-- Facebook application ID and custom URL scheme (app ID prefixed by 'fb'). -->
+    <string name="facebook_application_id" translatable="false">793600611036189</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb793600611036189</string>
+    <!-- Twitter consumer key and secret -->
+    <string name="twitter_consumer_key" translatable="false">QsKCQkWknKdDUWfYqpTkpe6Vr</string>
+    <string name="twitter_consumer_secret" translatable="false">O1OTvnZWuP2YsOCIb9HWMBNDpGCYaTT4peq7hGPmqIixkfjhoJ</string>
+
+    <!-- Global -->
+    <string name="global_accept">Aceptar</string>
+    <string name="global_cancel">Cancelar</string>
+    <string name="global_error_wifi_title">Error en conexion</string>
+    <string name="global_error_wifi_message">Parece que tenemos problemas con tu red, verifica tu conexion</string>
+
+    <!-- XML -->
+    <!-- Activities -->
+    <string name="activity_main_enter">Ingresar</string>
+
+    <!-- Java -->
+    <!-- Activities -->
+    <string name="mainactivity_errorlogin_title">Error al iniciar sesion</string>
+    <string name="mainactivity_errorlogin_message">Ops! parece que ocurrio un error al iniciar sesion, verifica tu conexion de internet</string>
+
+</resources>
