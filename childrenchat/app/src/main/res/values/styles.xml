@@ -5,6 +5,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/colorTextIcons</item>
         <!-- Cambiar font -->
         <!--<item name="android:fontFamily">@font/font</item>-->
     </style>
@@ -28,6 +29,6 @@
     <style name="OrangeButton" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:backgroundTint">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/colorTextIcons</item>
-
     </style>
+
 </resources>

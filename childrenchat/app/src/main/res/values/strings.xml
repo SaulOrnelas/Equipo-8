@@ -13,13 +13,30 @@
     <string name="global_error_wifi_title">Error en conexion</string>
     <string name="global_error_wifi_message">Parece que tenemos problemas con tu red, verifica tu conexion</string>
 
+    <!-- Characters -->
+    <string name="global_curp_characters">0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ</string>
+
     <!-- XML -->
     <!-- Activities -->
     <string name="activity_main_enter">Ingresar</string>
+
+    <string name="signup_activity_hint_username">Nombre de usuario</string>
+    <string name="signup_activity_hint_curp">CURP</string>
+    <string name="signup_activity_hint_birthday">Fecha de cumpleaños</string>
+    <string name="signup_activity_hint_age">Edad</string>
+    <string name="signup_activity_hint_man">Hombre</string>
+    <string name="signup_activity_hint_woman">Mujer</string>
+    <string name="signup_activity_button_signup">Registrarse</string>
 
     <!-- Java -->
     <!-- Activities -->
     <string name="mainactivity_errorlogin_title">Error al iniciar sesion</string>
     <string name="mainactivity_errorlogin_message">Ops! parece que ocurrio un error al iniciar sesion, verifica tu conexion de internet</string>
+
+
+    <string name="signupactivity_errorcurp_title">Error al obtener informacion</string>
+    <string name="signupactivity_errorcurp_message">Ops! parece que ocurrio un error al obtener tu informacion, intenta mas tarde</string>
+    <string name="signupactivity_successcurp_title">Datos obtenidos exitosamente</string>
+    <string name="signupactivity_successcurp_message">Tus datos se han obtenido exitosamente, ahora puedes completar el proceso de registro</string>
 
 </resources>

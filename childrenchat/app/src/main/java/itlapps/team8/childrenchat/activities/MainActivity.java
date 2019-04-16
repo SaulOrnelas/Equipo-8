@@ -3,6 +3,7 @@ package itlapps.team8.childrenchat.activities;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.button.MaterialButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,11 +14,15 @@ import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Arrays;
 import java.util.List;
 
 import itlapps.team8.childrenchat.R;
+import itlapps.team8.childrenchat.firebase.Database;
 import itlapps.team8.childrenchat.helpers.Message;
 import itlapps.team8.childrenchat.helpers.Wifi;
 
@@ -82,15 +87,28 @@ public class MainActivity extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                Log.e("user", user.toString());
-                // ...
-            } else {
-                //Error al iniciar sesion, se muestra mensaje
-                /*AlertDialog.Builder errorLogin = new AlertDialog.Builder(this);
-                errorLogin.setTitle(R.string.mainactivity_errorlogin_title);
-                errorLogin.setMessage(R.string.mainactivity_errorlogin_message);
-                errorLogin.setPositiveButton(R.string.global_accept, (dialog, which) -> dialog.dismiss());
-                errorLogin.show();*/
+
+                //Generamos un listener para saber si usuario ha completado registro,
+                // caso contrario lo mandamos a pantalla de completar registro
+                Database.USERS.child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            //Enviar a primera pantalla
+                            Log.e("existe", "usuario ya existe");
+                        } else {
+                            //Enviar a pantalla de registro
+                            Intent intent = new Intent(MainActivity.this, SignupActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
             }
         }
     }
