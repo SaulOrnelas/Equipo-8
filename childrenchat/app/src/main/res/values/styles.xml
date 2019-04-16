@@ -6,6 +6,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:textColorPrimary">@color/colorTextIcons</item>
+        <item name="android:editTextColor">@color/colorPrimaryText</item>
+        <item name="android:textColorAlertDialogListItem">@color/colorPrimaryText</item>
         <!-- Cambiar font -->
         <!--<item name="android:fontFamily">@font/font</item>-->
     </style>
@@ -29,6 +31,19 @@
     <style name="OrangeButton" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:backgroundTint">@color/colorPrimaryDark</item>
         <item name="android:textColor">@color/colorTextIcons</item>
+    </style>
+
+    <!-- Global alert dialog theme -->
+    <style name="AlertDialog" parent="Theme.MaterialComponents.Dialog">
+        <item name="android:textColor">@color/colorPrimaryText</item>
+        <item name="android:textColorPrimary">@color/colorPrimaryText</item>
+        <item name="android:colorAccent">@color/colorAccent</item>
+        <item name="android:background">@color/colorWhite</item>
+    </style>
+
+    <!-- Error text appearance -->
+    <style name="ErrorTextAppearance" parent="@android:style/TextAppearance">
+        <item name="android:textColor">@color/colorRed</item>
     </style>
 
 </resources>

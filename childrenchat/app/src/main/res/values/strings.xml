@@ -27,6 +27,11 @@
     <string name="signup_activity_hint_man">Hombre</string>
     <string name="signup_activity_hint_woman">Mujer</string>
     <string name="signup_activity_button_signup">Registrarse</string>
+    <string name="signup_activity_message">Estas a un paso de terminar tu registro, solo añade tu CURP, nosotros nos encargaremos del resto!</string>
+
+    <!-- Menus -->
+    <string name="menu_selectphoto_camera">Camara</string>
+    <string name="menu_selectphoto_gallery">Galeria</string>
 
     <!-- Java -->
     <!-- Activities -->
@@ -38,5 +43,11 @@
     <string name="signupactivity_errorcurp_message">Ops! parece que ocurrio un error al obtener tu informacion, intenta mas tarde</string>
     <string name="signupactivity_successcurp_title">Datos obtenidos exitosamente</string>
     <string name="signupactivity_successcurp_message">Tus datos se han obtenido exitosamente, ahora puedes completar el proceso de registro</string>
+    <string name="signupactivity_error_lengthcurp">El tamaño del CURP no es el adecuado</string>
+    <string name="signupactivity_error_invalidcurp">Ingresa un CURP valido para obtener tus datos</string>
+    <string name="signupactivity_preguntarporimagen_titulo">No has seleccionado una imagen</string>
+    <string name="signupactivity_preguntarporimagen_mensaje">No seleccionaste una imagen de perfil, ¿Deseas seleccionarla ahora o despues?</string>
+    <string name="signupactivity_preguntarporimagen_buttonpositive">Ahora</string>
+    <string name="signupactivity_preguntarporimagen_buttonnegative">Despues</string>
 
 </resources>

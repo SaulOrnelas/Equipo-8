@@ -9,4 +9,5 @@
     <color name="colorPrimaryText">#212121</color>
     <color name="colorSecondayText">#757575</color>
     <color name="colorDivider">#BDBDBD</color>
+    <color name="colorRed">#CA0A0A</color>
 </resources>

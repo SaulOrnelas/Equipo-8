@@ -52,7 +52,14 @@ dependencies {
     //Implementación de Picasso para cargar las imagenes de web
     implementation 'com.squareup.picasso:picasso:2.71828'
 
+    //Cliente SOAP
     implementation 'com.google.code.ksoap2-android:ksoap2-android:3.6.1'
+
+    //Animaciones lottie
+    implementation 'com.airbnb.android:lottie:2.7.0'
+
+    //Imagen circular
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
