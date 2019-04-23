@@ -24,27 +24,12 @@
         </activity>
         <activity android:parentActivityName=".activities.MainActivity" android:name=".activities.SignupActivity"
             android:windowSoftInputMode="stateAlwaysHidden" android:theme="@style/AppTheme"/>
-<!--
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
 
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
+        <activity android:theme="@style/NoActionBarTheme" android:name=".activities.MainActivityFather" android:screenOrientation="portrait"/>
 
-        <activity
-            android:name="com.facebook.CustomTabActivity"
-            android:exported="true">
-            <intent-filter><action android:name="android.intent.action.VIEW" />
+        <activity android:name=".activities.ChildsActivity" android:parentActivityName=".activities.MainActivityFather" android:screenOrientation="portrait" android:theme="@style/AppTheme.Slider" />
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="@string/fb_login_protocol_scheme" />
-            </intent-filter>
-        </activity>-->
+        <activity android:windowSoftInputMode="stateAlwaysHidden" android:name=".activities.AddChildActivity" android:parentActivityName=".activities.MainActivityFather" android:screenOrientation="portrait" android:theme="@style/AppTheme.Slider" />
 
     </application>
 

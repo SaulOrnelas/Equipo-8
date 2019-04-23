@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/nav_header_father_imageprofile"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="15dp"
+        android:layout_margin="10dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/ic_avatar" />
+
+    <LinearLayout
+        android:layout_below="@id/nav_header_father_imageprofile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp">
+
+        <TextView
+            android:id="@+id/nav_header_father_tvname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre usuario"/>
+
+        <TextView
+            android:id="@+id/nav_header_father_tvcurp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="curp usuario"/>
+
+        <TextView
+            android:id="@+id/nav_header_father_tvemail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="email usuario"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -92,7 +92,10 @@ public class MainActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
                             //Enviar a primera pantalla
-                            Log.e("existe", "usuario ya existe");
+
+                            Intent intent = new Intent(MainActivity.this, MainActivityFather.class);
+                            startActivity(intent);
+                            MainActivity.this.finish();
                         } else {
                             //Enviar a pantalla de registro
                             Intent intent = new Intent(MainActivity.this, SignupActivity.class);

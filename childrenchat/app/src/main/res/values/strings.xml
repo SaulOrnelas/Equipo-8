@@ -29,9 +29,25 @@
     <string name="signup_activity_button_signup">Registrarse</string>
     <string name="signup_activity_message">Estas a un paso de terminar tu registro, solo añade tu CURP, nosotros nos encargaremos del resto!</string>
 
+    <string name="signup_activity_child_hint_nombrehijo">Nombre del niño</string>
+    <string name="signup_activity_child_hint_curp">CURP del niño</string>
+    <string name="signup_activity_child_hint_email">Email para niño</string>
+    <string name="signup_activity_child_hint_password">Contraseña</string>
+    <string name="signup_activity_child_hint_passwordconfirm">Confirma contraseña</string>
+
+    <string name="activity_childs_emptychilds">Aun no tienes hijos registrados</string>
+
     <!-- Menus -->
     <string name="menu_selectphoto_camera">Camara</string>
     <string name="menu_selectphoto_gallery">Galeria</string>
+
+    <string name="menu_searchfather_search_titulo">Buscar</string>
+
+    <string name="menu_navigationfather_contactos_titulo">Contactos</string>
+    <string name="menu_navigationfather_mishijos_titulo">Mis hijos</string>
+    <string name="menu_navigationfather_solicitudes_titulo">Solicitudes</string>
+    <string name="menu_navigationfather_ajustes_titulo">Ajustes</string>
+    <string name="menu_navigationfather_cerrarsesion_titulo">Cerrar sesion</string>
 
     <!-- Java -->
     <!-- Activities -->
@@ -49,5 +65,7 @@
     <string name="signupactivity_preguntarporimagen_mensaje">No seleccionaste una imagen de perfil, ¿Deseas seleccionarla ahora o despues?</string>
     <string name="signupactivity_preguntarporimagen_buttonpositive">Ahora</string>
     <string name="signupactivity_preguntarporimagen_buttonnegative">Despues</string>
+    <string name="signupactivity_error_menoredad_titulo">Registro bloqueado</string>
+    <string name="signupactivity_error_menoredad_mensaje">El registro esta bloqueado para menores de edad</string>
 
 </resources>

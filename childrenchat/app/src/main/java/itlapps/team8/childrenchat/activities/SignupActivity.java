@@ -2,6 +2,7 @@ package itlapps.team8.childrenchat.activities;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -23,21 +24,29 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.UploadTask;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
+import java.io.ByteArrayOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import itlapps.team8.childrenchat.R;
+import itlapps.team8.childrenchat.firebase.Database;
+import itlapps.team8.childrenchat.firebase.Storage;
 import itlapps.team8.childrenchat.helpers.Keyboard;
 import itlapps.team8.childrenchat.helpers.Message;
 
 public class SignupActivity extends AppCompatActivity {
+    private FirebaseUser usuario;
     private static final int REQUEST_CODE_CAMERA = 0;
     private static final int REQUEST_CODE_GALLERY = 1;
 
@@ -67,6 +76,8 @@ public class SignupActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_activity);
+
+        usuario = FirebaseAuth.getInstance().getCurrentUser();
 
         //Permite hacer llamadas SOAP en el hilo principal
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -161,6 +172,7 @@ public class SignupActivity extends AppCompatActivity {
 
     /**
      * A partir del codigo de peticion se ejecuta la accion de camara o galeria
+     *
      * @param requestCode
      * @param resultCode
      * @param data
@@ -284,13 +296,53 @@ public class SignupActivity extends AppCompatActivity {
      */
     private void registrarse() {
         if (camposValidos()) {
+            String genero = "";
 
+            if (radioButtonHombre.isChecked()) {
+                genero = "h";
+            } else if (radioButtonMujer.isChecked()) {
+                genero = "m";
+            }
+
+            //Registra usuario en Firebase
+            Database.registrarPadre(usuario.getUid(),
+                    editTextNombre.getText().toString(),
+                    editTextFechaCumple.getText().toString(),
+                    genero, editTextCurp.getText().toString(),
+                    usuario.getEmail());
+
+            if (seleccionoImagen()) {
+                guardarImagenPerfilUsuario();
+            }
+
+            Intent intent = new Intent(this, MainActivityFather.class);
+            startActivity(intent);
         }
+    }
+
+    /**
+     * Toma los bytes de la imagen seleccionada y almacena la imagen en la base de datos
+     */
+    private void guardarImagenPerfilUsuario() {
+        imageViewPhoto.setDrawingCacheEnabled(true);
+        imageViewPhoto.buildDrawingCache();
+        Bitmap bitmap = ((BitmapDrawable) imageViewPhoto.getDrawable()).getBitmap();
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+
+        byte[] dataBytes = baos.toByteArray();
+
+        String nombreArchivo = FirebaseAuth.getInstance().getCurrentUser().getUid() + ".jpg";
+
+        Storage.guardarImagenPerfilUsuario(nombreArchivo, dataBytes);
     }
 
     /**
      * Valida los campos de curp y retorna un booleano para hacerle saber al usuario los errores
      * o advertencias
+     *
      * @return
      */
     private boolean camposValidos() {
@@ -298,38 +350,43 @@ public class SignupActivity extends AppCompatActivity {
         if (editTextCurp.getText().toString().length() == 18) {
             //Valida que los datos se hallan obtenido exitosamente
             if (!TextUtils.isEmpty(editTextNombre.getText().toString()) && !TextUtils.isEmpty(editTextFechaCumple.getText().toString()) && !TextUtils.isEmpty(editTextEdad.getText().toString())) {
-                //Pregunta si el usuario quiere una imagen de perfil
-                if (quiereImagen) {
-                    //Valida si el usuario ha seleccionado una imagen
-                    if (seleccionoImagen()) {
-                        return true;
+                if (Integer.parseInt(editTextEdad.getText().toString()) >= 18) {
+                    //Pregunta si el usuario quiere una imagen de perfil
+                    if (quiereImagen) {
+                        //Valida si el usuario ha seleccionado una imagen
+                        if (seleccionoImagen()) {
+                            return true;
+                        } else {
+                            //En caso de que no la halla seleccionado muestra una advertencia donde le
+                            //pregunta si quiere continuar asi o la quiere agregar
+                            AlertDialog.Builder preguntarPorImagen = new AlertDialog.Builder(this, R.style.AlertDialog);
+                            preguntarPorImagen.setTitle(R.string.signupactivity_preguntarporimagen_titulo);
+                            preguntarPorImagen.setMessage(R.string.signupactivity_preguntarporimagen_mensaje);
+
+                            preguntarPorImagen.setPositiveButton(R.string.signupactivity_preguntarporimagen_buttonpositive, (dialog, which) -> {
+                                //Sigue queriendo imagen y abre el menu para que la seleccione
+                                quiereImagen = true;
+                                dialog.dismiss();
+                                seleccionarFoto();
+                            });
+
+                            preguntarPorImagen.setNegativeButton(R.string.signupactivity_preguntarporimagen_buttonnegative, (dialog, which) -> {
+                                //No quiere imagen y continua con el registro
+                                quiereImagen = false;
+                                dialog.dismiss();
+                                registrarse();
+                            });
+
+                            preguntarPorImagen.show();
+
+                            return false;
+                        }
                     } else {
-                        //En caso de que no la halla seleccionado muestra una advertencia donde le
-                        //pregunta si quiere continuar asi o la quiere agregar
-                        AlertDialog.Builder preguntarPorImagen = new AlertDialog.Builder(this, R.style.AlertDialog);
-                        preguntarPorImagen.setTitle(R.string.signupactivity_preguntarporimagen_titulo);
-                        preguntarPorImagen.setMessage(R.string.signupactivity_preguntarporimagen_mensaje);
-
-                        preguntarPorImagen.setPositiveButton(R.string.signupactivity_preguntarporimagen_buttonpositive, (dialog, which) -> {
-                            //Sigue queriendo imagen y abre el menu para que la seleccione
-                            quiereImagen = true;
-                            dialog.dismiss();
-                            seleccionarFoto();
-                        });
-
-                        preguntarPorImagen.setNegativeButton(R.string.signupactivity_preguntarporimagen_buttonnegative, (dialog, which) -> {
-                            //No quiere imagen y continua con el registro
-                            quiereImagen = false;
-                            dialog.dismiss();
-                            registrarse();
-                        });
-
-                        preguntarPorImagen.show();
-
-                        return false;
+                        return true;
                     }
                 } else {
-                    return true;
+                    Message.makeSimpleMessage(this, R.string.signupactivity_error_menoredad_titulo, R.string.signupactivity_error_menoredad_mensaje, R.string.global_accept);
+                    return false;
                 }
             } else {
                 editTextCurp.setError(getString(R.string.signupactivity_error_invalidcurp));

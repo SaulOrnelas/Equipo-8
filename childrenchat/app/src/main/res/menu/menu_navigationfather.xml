@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menu_navigationfather_contactos"
+        android:icon="@drawable/ic_contacts"
+        android:title="@string/menu_navigationfather_contactos_titulo" />
+
+    <item
+        android:id="@+id/menu_navigationfather_mishijos"
+        android:icon="@drawable/ic_childrens"
+        android:title="@string/menu_navigationfather_mishijos_titulo" />
+
+    <item
+        android:id="@+id/menu_navigationfather_solicitudes"
+        android:icon="@drawable/ic_request"
+        android:title="@string/menu_navigationfather_solicitudes_titulo" />
+
+    <item
+        android:id="@+id/menu_navigationfather_ajustes"
+        android:icon="@drawable/ic_settings"
+        android:title="@string/menu_navigationfather_ajustes_titulo" />
+
+    <item
+        android:id="@+id/menu_navigationfather_cerrarsesion"
+        android:icon="@drawable/ic_signout"
+        android:title="@string/menu_navigationfather_cerrarsesion_titulo" />
+
+</menu>
