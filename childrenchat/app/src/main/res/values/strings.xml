@@ -29,11 +29,12 @@
     <string name="signup_activity_button_signup">Registrarse</string>
     <string name="signup_activity_message">Estas a un paso de terminar tu registro, solo añade tu CURP, nosotros nos encargaremos del resto!</string>
 
-    <string name="signup_activity_child_hint_nombrehijo">Nombre del niño</string>
-    <string name="signup_activity_child_hint_curp">CURP del niño</string>
-    <string name="signup_activity_child_hint_email">Email para niño</string>
-    <string name="signup_activity_child_hint_password">Contraseña</string>
-    <string name="signup_activity_child_hint_passwordconfirm">Confirma contraseña</string>
+    <string name="activity_add_child_hint_nombrehijo">Nombre del niño</string>
+    <string name="activity_add_child_hint_curp">CURP del niño</string>
+    <string name="activity_add_child_hint_email">Email para niño</string>
+    <string name="activity_add_child_hint_password">Contraseña</string>
+    <string name="activity_add_child_hint_passwordconfirm">Confirma contraseña</string>
+    <string name="activity_add_child_button_registrar">Registrar</string>
 
     <string name="activity_childs_emptychilds">Aun no tienes hijos registrados</string>
 
@@ -67,5 +68,13 @@
     <string name="signupactivity_preguntarporimagen_buttonnegative">Despues</string>
     <string name="signupactivity_error_menoredad_titulo">Registro bloqueado</string>
     <string name="signupactivity_error_menoredad_mensaje">El registro esta bloqueado para menores de edad</string>
+
+    <string name="addchildactivity_error_mayoredad_mensaje">El registro de hijos esta bloqueado para mayores de edad</string>
+    <string name="addchildactivity_error_empty">Este campo es requerido</string>
+    <string name="addchildactivity_error_invalidemail">Email no valido</string>
+    <string name="addchildactivity_error_password">Las contraseñas no coinciden</string>
+    <string name="addchildactivity_error_passwordlength">La contraseña minimo tiene que tener 6 caracteres</string>
+    <string name="addchildactivity_error_registro_titulo">Error al registrar menor de edad</string>
+    <string name="addchildactivity_error_registro_mensaje">El correo ingresado para el menor de edad ya esta siendo ocupado por otro usuario, intenta con otro diferente</string>
 
 </resources>

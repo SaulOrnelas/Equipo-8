@@ -33,7 +33,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:hint="@string/signup_activity_child_hint_curp"
+                android:hint="@string/activity_add_child_hint_curp"
                 app:errorEnabled="true"
                 app:errorTextAppearance="@style/ErrorTextAppearance"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -56,7 +56,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:hint="@string/signup_activity_child_hint_nombrehijo"
+                android:hint="@string/activity_add_child_hint_nombrehijo"
                 app:errorEnabled="false"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -139,25 +139,27 @@
             </RadioGroup>
 
             <android.support.design.button.MaterialButton
-                android:id="@+id/materialbutton_registrarse"
+                android:id="@+id/materialbutton_registrar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/signup_activity_button_signup"
+                android:text="@string/activity_add_child_button_registrar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/textInputLayout3"
-                android:layout_width="395dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:hint="@string/signup_activity_child_hint_email"
+                android:hint="@string/activity_add_child_hint_email"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@style/ErrorTextAppearance"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -166,17 +168,20 @@
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/edittext_email"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/textInputLayout6"
-                android:layout_width="395dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:hint="@string/signup_activity_child_hint_password"
+                android:hint="@string/activity_add_child_hint_password"
+                app:errorEnabled="true"
+                app:errorTextAppearance="@style/ErrorTextAppearance"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout3">
@@ -184,17 +189,18 @@
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/edittext_password"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/textInputLayout7"
-                android:layout_width="395dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:hint="@string/signup_activity_child_hint_passwordconfirm"
+                android:hint="@string/activity_add_child_hint_passwordconfirm"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout6">
@@ -202,7 +208,8 @@
                 <android.support.design.widget.TextInputEditText
                     android:id="@+id/edittext_passwordconfirm"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword" />
             </android.support.design.widget.TextInputLayout>
 
         </android.support.constraint.ConstraintLayout>

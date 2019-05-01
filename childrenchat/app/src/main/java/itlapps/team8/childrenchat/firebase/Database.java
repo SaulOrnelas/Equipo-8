@@ -18,8 +18,35 @@ public class Database {
         referencia.child("tipo").setValue("padre");
     }
 
+    public static void registrarHijo(String uidHijo, String uidPadre, String nombre, String fechaCumple, String genero, String curp, String email) {
+        //Registrar un nuevo usuario de tipo hijo
+        DatabaseReference referencia = USERS.child(uidHijo);
+        DatabaseReference referenciaPropiedades = referencia.child("propiedades");
+        referenciaPropiedades.child("key").setValue(referencia.getKey());
+        referenciaPropiedades.child("padre").setValue(uidPadre);
+        referenciaPropiedades.child("nombre").setValue(nombre);
+        referenciaPropiedades.child("fecha_cumple").setValue(fechaCumple);
+        referenciaPropiedades.child("genero").setValue(genero);
+        referenciaPropiedades.child("curp").setValue(curp);
+        referenciaPropiedades.child("email").setValue(email);
+        referenciaPropiedades.child("tipo").setValue("hijo");
+
+        //Añadimos al padre el hijo
+        USERS.child(uidPadre).child("hijos").child(referencia.getKey()).setValue(referencia.getKey());
+
+        //Añadimos al padre el contacto del hijo
+        USERS.child(uidPadre).child("contactos").child(referencia.getKey()).setValue(referencia.getKey());
+
+        //Añadimos al hijo el contacto del padre
+        USERS.child(referencia.getKey()).child("contactos").child(uidPadre).setValue(uidPadre);
+    }
+
     public static DatabaseReference obtenerUsuario(String uid) {
         return USERS.child(uid);
+    }
+
+    public static DatabaseReference obtenerHijos(String uid) {
+        return USERS.child(uid).child("hijos");
     }
 
 }
