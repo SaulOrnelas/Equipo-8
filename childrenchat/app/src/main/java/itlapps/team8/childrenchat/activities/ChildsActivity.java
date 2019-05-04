@@ -13,7 +13,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Html;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -58,11 +60,11 @@ public class ChildsActivity extends AppCompatActivity {
             @Override
             public void onRightClicked(int position) {
                 try {
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ChildsActivity.this);
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder( new ContextThemeWrapper(ChildsActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert));
 
                     //Agregar titulo y mensaje de alert dialog
-                    alertDialogBuilder.setTitle("Eliminar hijo");
-                    alertDialogBuilder.setMessage("Esta seguro de que quiere eliminar el registro");
+                    alertDialogBuilder.setTitle(Html.fromHtml("Eliminar hijo"));
+                    alertDialogBuilder.setMessage(Html.fromHtml("Esta seguro de que quiere eliminar el registro"));
                     alertDialogBuilder.setCancelable(false);
 
                     alertDialogBuilder
