@@ -1,8 +1,8 @@
 # Equipo 8  
 ## Integrantes  
 Carlos Leonardo Luna Castillo  
-Luis Saul Ornelas Pérez
-Juda Alector Vallejo Herrera
+Luis Saul Ornelas Pérez  
+Juda Alector Vallejo Herrera  
 Juan José Estrada Valtierra  
 ## Actualizaciones  
 12/03/2019 - Añadir ejemplo para exposición de Recyclerview  
