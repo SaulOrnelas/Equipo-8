@@ -41,11 +41,11 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         //Asignamos el tipo de layout que queramos a nuestro recyclerview, linear, o cuadricula
-        /*recyclerView.setLayoutManager(new LinearLayoutManager(this,
+        recyclerView.setLayoutManager(new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL,
-                false));*/
+                false));
 
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        //recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
 
     }
 }

@@ -74,6 +74,10 @@ public class RVChildsAdapter extends RecyclerView.Adapter<RVChildsAdapter.RVChil
         return keys.size();
     }
 
+    public String getKeyOfChild(int position) {
+        return keys.get(position);
+    }
+
     public class RVChildsAdapterViewHolder extends RecyclerView.ViewHolder {
         private CircleImageView imageViewUserPhoto;
         private TextView textViewUserName;
