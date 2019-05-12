@@ -41,6 +41,11 @@ public class Database {
         //Añadimos al hijo el contacto del padre
         USERS.child(referencia.getKey()).child("contactos").child(uidPadre).setValue(uidPadre);
     }
+    public static void eliminarHijo(String uidPadre, String uidHijo){
+        USERS.child(uidPadre).child("contactos").child(uidHijo).removeValue();
+        USERS.child(uidPadre).child("hijos").child(uidHijo).removeValue();
+        USERS.child(uidHijo).removeValue();
+    }
 
     public static DatabaseReference obtenerUsuario(String uid) {
         return USERS.child(uid);

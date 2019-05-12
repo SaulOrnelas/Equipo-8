@@ -1,19 +1,25 @@
 package itlapps.team8.childrenchat.activities;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Html;
 import android.util.Log;
+import android.view.ContextThemeWrapper;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,6 +42,7 @@ public class ChildsActivity extends AppCompatActivity {
     private FloatingActionButton floatingActionButtonAddChild;
     private TextView textViewEmptyChilds;
     private RecyclerView recyclerViewChilds;
+    private RVChildsAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,13 +54,32 @@ public class ChildsActivity extends AppCompatActivity {
         floatingActionButtonAddChild = findViewById(R.id.fb_addchild);
         textViewEmptyChilds = findViewById(R.id.tv_emptychilds);
         recyclerViewChilds = findViewById(R.id.rv_childs);
+        adapter = new RVChildsAdapter(this, new ArrayList<>());
 
         final SwipeController swipeController = new SwipeController(this, new SwipeControllerActions() {
             @Override
             public void onRightClicked(int position) {
                 try {
-                    /*RVPhrasesAdapter adapter = (RVPhrasesAdapter) recyclerViewPhrases.getAdapter();
-                    Database.deletePhrase(user.getUid(), adapter.getItem(position));*/
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder( new ContextThemeWrapper(ChildsActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert));
+
+                    //Agregar titulo y mensaje de alert dialog
+                    alertDialogBuilder.setTitle(Html.fromHtml("Eliminar hijo"));
+                    alertDialogBuilder.setMessage(Html.fromHtml("Esta seguro de que quiere eliminar el registro"));
+                    alertDialogBuilder.setCancelable(false);
+
+                    alertDialogBuilder
+                            .setPositiveButton("Si",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    //Si se seleccionó esta opción eliminar el hijo
+                                    Database.eliminarHijo(usuario.getUid(), ((RVChildsAdapter)recyclerViewChilds.getAdapter()).getKeyOfChild(position));
+                                }
+                            })
+                            .setNegativeButton("No",new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog,int id) {
+                                    dialog.cancel();
+                                }
+                            });
+                    alertDialogBuilder.show();
                 } catch (Exception e) {}
             }
         });
@@ -82,7 +108,7 @@ public class ChildsActivity extends AppCompatActivity {
                         keys.add(aux.getKey());
                     }
 
-                    RVChildsAdapter adapter = new RVChildsAdapter(ChildsActivity.this, keys);
+                    adapter = new RVChildsAdapter(ChildsActivity.this, keys);
                     recyclerViewChilds.setLayoutManager(new LinearLayoutManager(ChildsActivity.this, LinearLayoutManager.VERTICAL, false));
                     recyclerViewChilds.setAdapter(adapter);
                 } else {
