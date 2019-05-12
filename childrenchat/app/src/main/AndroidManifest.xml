@@ -6,7 +6,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -14,23 +13,36 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-        <activity android:name=".activities.MainActivity" android:theme="@style/SplashTheme">
+        <activity android:name=".activities.EditChildActivity"></activity>
+        <activity
+            android:name=".activities.MainActivity"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:parentActivityName=".activities.MainActivity" android:name=".activities.SignupActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" android:theme="@style/AppTheme"/>
-
-        <activity android:theme="@style/NoActionBarTheme" android:name=".activities.MainActivityFather" android:screenOrientation="portrait"/>
-
-        <activity android:name=".activities.ChildsActivity" android:parentActivityName=".activities.MainActivityFather" android:screenOrientation="portrait" android:theme="@style/AppTheme.Slider" />
-
-        <activity android:windowSoftInputMode="stateAlwaysHidden" android:name=".activities.AddChildActivity" android:parentActivityName=".activities.MainActivityFather" android:screenOrientation="portrait" android:theme="@style/AppTheme.Slider" />
-
+        <activity
+            android:name=".activities.SignupActivity"
+            android:parentActivityName=".activities.MainActivity"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".activities.MainActivityFather"
+            android:screenOrientation="portrait"
+            android:theme="@style/NoActionBarTheme" />
+        <activity
+            android:name=".activities.ChildsActivity"
+            android:parentActivityName=".activities.MainActivityFather"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Slider" />
+        <activity
+            android:name=".activities.AddChildActivity"
+            android:parentActivityName=".activities.MainActivityFather"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Slider"
+            android:windowSoftInputMode="stateAlwaysHidden" />
     </application>
 
 </manifest>

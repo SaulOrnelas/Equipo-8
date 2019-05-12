@@ -1,5 +1,6 @@
 package itlapps.team8.childrenchat.firebase;
 
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -48,5 +49,7 @@ public class Database {
     public static DatabaseReference obtenerHijos(String uid) {
         return USERS.child(uid).child("hijos");
     }
+
+
 
 }

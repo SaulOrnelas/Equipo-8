@@ -77,4 +77,8 @@
     <string name="addchildactivity_error_registro_titulo">Error al registrar menor de edad</string>
     <string name="addchildactivity_error_registro_mensaje">El correo ingresado para el menor de edad ya esta siendo ocupado por otro usuario, intenta con otro diferente</string>
 
+    <!-- Editar Childs -->
+    <string name="activity_edit_child_button_actualizar_foto">Actualizar foto</string>
+    <string name="activity_edit_child_button_recovery_password">Recuperar contraseña</string>
+    <string name="activity_add_child_hint_actual_password">Contraseña actual</string>
 </resources>

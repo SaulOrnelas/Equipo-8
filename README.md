@@ -2,12 +2,14 @@
 ## Integrantes  
 Carlos Leonardo Luna Castillo  
 Saul Ornelas  
-Jud· Alector Vallejo  
-Juan JosÈ Estrada Valtierra  
+Jud√° Alector Vallejo  
+Juan Jos√© Estrada Valtierra  
 ## Actualizaciones  
-12/03/2019 - AÒadir ejemplo para exposiciÛn de Recyclerview  
-24/03/2019 - AÒadir ejemplo de la exposiciÛn del dÌa 20/03/2019 (Recyclerview)  
-15/04/2019 - AÒadir aplicaciÛn children chat, iniciar con Auth, iniciar registro con CURP  
-16/04/2019 - ImplementaciÛn de validaciones y advertencias en formulario de registro (childrenchat)  
-23/04/2019 - ImplementaciÛn de navigation drawer, comienzo de navegaciÛn para aÒadir niÒos (childrenchat)  
-01/05/2019 - ImplementaciÛn de lista de niÒos y pull right para mostrar botÛn para eliminar a uno (childrenchat)
+12/03/2019 - A√±adir ejemplo para exposici√≥n de Recyclerview  
+24/03/2019 - A√±adir ejemplo de la exposici√≥n del d√≠a 20/03/2019 (Recyclerview)  
+15/04/2019 - A√±adir aplicaci√≥n children chat, iniciar con Auth, iniciar registro con CURP  
+16/04/2019 - Implementaci√≥n de validaciones y advertencias en formulario de registro (childrenchat)  
+23/04/2019 - Implementaci√≥n de navigation drawer, comienzo de navegaci√≥n para a√±adir ni√±os (childrenchat)  
+01/05/2019 - Implementaci√≥n de lista de ni√±os y pull right para mostrar bot√≥n para eliminar a uno (childrenchat)
+
+12/05/2019 - Implementaci√≥n de actualizaci√≥n de foto de perfil y env√≠o de correo para recuperar contrase√±a

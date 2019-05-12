@@ -31,7 +31,6 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.r0adkll.slidr.Slidr;
 
@@ -40,19 +39,17 @@ import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
 
-import java.io.ByteArrayOutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import itlapps.team8.childrenchat.R;
+import itlapps.team8.childrenchat.extras.CCUtil;
 import itlapps.team8.childrenchat.firebase.Database;
-import itlapps.team8.childrenchat.firebase.Storage;
+
 import itlapps.team8.childrenchat.helpers.Keyboard;
 import itlapps.team8.childrenchat.helpers.Message;
+import itlapps.team8.childrenchat.model.Usuario;
 
 public class AddChildActivity extends AppCompatActivity {
     private FirebaseUser usuario;
@@ -268,7 +265,7 @@ public class AddChildActivity extends AppCompatActivity {
 
             editTextNombre.setText(userName);
             editTextFechaCumple.setText(fechaNac);
-            editTextEdad.setText(edad(fechaNac));
+            editTextEdad.setText(CCUtil.edad(fechaNac));
 
             if (sexo.equals("H")) {
                 radioButtonHombre.setChecked(true);
@@ -288,39 +285,13 @@ public class AddChildActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * Calcula la edad del usuario a partir de su fecha de nacimiento
-     *
-     * @param fechaNacimiento
-     * @return
-     */
-    private String edad(String fechaNacimiento) {
-        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = null;
-        try {
-            date = format.parse(fechaNacimiento);
-        } catch (Exception exception) {
-            exception.printStackTrace();
-        }
 
-        Calendar fechaNacimientoUsuario = Calendar.getInstance();
-        fechaNacimientoUsuario.setTime(date);
-
-        Calendar hoy = Calendar.getInstance();
-
-        long diferencia = hoy.getTimeInMillis() - fechaNacimientoUsuario.getTimeInMillis();
-
-        long anios = (diferencia / (24 * 60 * 60 * 1000)) / 365;
-
-        return String.valueOf(anios);
-    }
 
     /**
      * Genera el registro del usuario en el servidor
      */
     private void registrar() {
         if (camposValidos()) {
-
             String email = editTextEmail.getText().toString();
             String password = editTextPassword.getText().toString();
 
@@ -340,14 +311,14 @@ public class AddChildActivity extends AppCompatActivity {
 
                         //Registra usuario en Firebase
                         Database.registrarHijo(task.getResult().getUser().getUid(),
-                                usuario.getUid(),
-                                editTextNombre.getText().toString(),
-                                editTextFechaCumple.getText().toString(),
-                                genero, editTextCurp.getText().toString(),
-                                email);
+                            usuario.getUid(),
+                            editTextNombre.getText().toString(),
+                            editTextFechaCumple.getText().toString(),
+                            genero, editTextCurp.getText().toString(),
+                            email);
 
                         if (seleccionoImagen()) {
-                            guardarImagenPerfilUsuario(task.getResult().getUser().getUid());
+                            CCUtil.guardarImagenPerfilUsuario(imageViewPhoto, task.getResult().getUser().getUid());
                         }
 
                         AddChildActivity.this.finish();
@@ -464,24 +435,6 @@ public class AddChildActivity extends AppCompatActivity {
         return matcher.find();
     }
 
-    /**
-     * Toma los bytes de la imagen seleccionada y almacena la imagen en la base de datos
-     */
-    private void guardarImagenPerfilUsuario(String keyOfUser) {
-        imageViewPhoto.setDrawingCacheEnabled(true);
-        imageViewPhoto.buildDrawingCache();
-        Bitmap bitmap = ((BitmapDrawable) imageViewPhoto.getDrawable()).getBitmap();
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 70, baos);
-
-        byte[] dataBytes = baos.toByteArray();
-
-        String nombreArchivo = keyOfUser + ".jpg";
-
-        Storage.guardarImagenPerfilUsuario(nombreArchivo, dataBytes);
-    }
 
     /**
      * Valida si el ImageView aun tiene el avatar circular, si no lo tiene significa que el
