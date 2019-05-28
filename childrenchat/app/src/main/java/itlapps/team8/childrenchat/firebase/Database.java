@@ -40,6 +40,7 @@ public class Database {
 
         //Añadimos al hijo el contacto del padre
         USERS.child(referencia.getKey()).child("contactos").child(uidPadre).setValue(uidPadre);
+        //Esto es un comentario
     }
     public static void eliminarHijo(String uidPadre, String uidHijo){
         USERS.child(uidPadre).child("contactos").child(uidHijo).removeValue();
