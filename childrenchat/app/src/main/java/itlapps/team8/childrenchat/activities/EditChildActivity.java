@@ -12,6 +12,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -23,6 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+import com.r0adkll.slidr.Slidr;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -57,6 +59,8 @@ public class EditChildActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_child);
 
         this.firebaseAuth = FirebaseAuth.getInstance();
+
+        Slidr.attach(this);
 
         Bundle extra = this.getIntent().getExtras();
         String childKey = extra.getString("key");
@@ -199,6 +203,22 @@ public class EditChildActivity extends AppCompatActivity {
         }
 
         this.finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+        }
+        return true;
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
 }

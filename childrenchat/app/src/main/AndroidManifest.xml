@@ -13,7 +13,6 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.EditChildActivity"></activity>
         <activity
             android:name=".activities.MainActivity"
             android:theme="@style/SplashTheme">
@@ -43,6 +42,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Slider"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity android:name=".activities.EditChildActivity"
+            android:parentActivityName=".activities.ChildsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Slider"
+            android:windowSoftInputMode="stateAlwaysHidden"></activity>
+
     </application>
 
 </manifest>

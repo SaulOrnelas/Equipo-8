@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,6 +62,7 @@ public class RVChildsAdapter extends RecyclerView.Adapter<RVChildsAdapter.RVChil
                         Intent editChild = new Intent(context, EditChildActivity.class);
                         editChild.putExtra("key", usuario.propiedades.key);
                         context.startActivity(editChild);
+                        ((AppCompatActivity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     }
                 });
 
