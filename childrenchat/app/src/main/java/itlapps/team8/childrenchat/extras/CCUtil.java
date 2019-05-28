@@ -54,8 +54,6 @@ public class CCUtil {
         byte[] dataBytes = baos.toByteArray();
         String nombreArchivo = keyOfUser + ".jpg";
 
-        //lkmkmkmks
-
         Storage.guardarImagenPerfilUsuario(nombreArchivo, dataBytes);
     }
 
