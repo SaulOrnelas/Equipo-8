@@ -60,11 +60,11 @@ public class ChildsActivity extends AppCompatActivity {
             @Override
             public void onRightClicked(int position) {
                 try {
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder( new ContextThemeWrapper(ChildsActivity.this, android.R.style.Theme_Material_Light_Dialog_Alert));
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(ChildsActivity.this, R.style.AlertDialog);
 
                     //Agregar titulo y mensaje de alert dialog
-                    alertDialogBuilder.setTitle(Html.fromHtml("Eliminar hijo"));
-                    alertDialogBuilder.setMessage(Html.fromHtml("Esta seguro de que quiere eliminar el registro"));
+                    alertDialogBuilder.setTitle("Eliminar hijo");
+                    alertDialogBuilder.setMessage("Esta seguro de que quiere eliminar el registro");
                     alertDialogBuilder.setCancelable(false);
 
                     alertDialogBuilder

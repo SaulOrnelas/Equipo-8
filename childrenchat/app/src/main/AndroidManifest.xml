@@ -47,6 +47,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Slider"
             android:windowSoftInputMode="stateAlwaysHidden"></activity>
+        <activity
+            android:name=".activities.ContactsActivity"
+            android:parentActivityName=".activities.MainActivityFather"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Slider" />
 
     </application>
 

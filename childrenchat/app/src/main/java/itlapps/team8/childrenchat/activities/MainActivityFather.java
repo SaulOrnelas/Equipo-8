@@ -1,8 +1,10 @@
 package itlapps.team8.childrenchat.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
@@ -48,10 +50,16 @@ public class MainActivityFather extends AppCompatActivity {
     private TextView textViewCurp;
     private TextView textViewEmail;
 
+    private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_father);
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        //Guardamos en las preferencias de la app que hay una sesion activa
+        sharedPreferences.edit().putBoolean("active_session", true).apply();
 
         usuario = FirebaseAuth.getInstance().getCurrentUser();
         drawerLayout = findViewById(R.id.activity_main_father);
@@ -69,6 +77,10 @@ public class MainActivityFather extends AppCompatActivity {
             switch(id)
             {
                 case R.id.menu_navigationfather_contactos:
+                    drawerLayout.closeDrawers();
+                    Intent intentContacts = new Intent(this, ContactsActivity.class);
+                    startActivity(intentContacts);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     break;
                 case R.id.menu_navigationfather_mishijos:
                     drawerLayout.closeDrawers();
@@ -81,6 +93,8 @@ public class MainActivityFather extends AppCompatActivity {
                 case R.id.menu_navigationfather_ajustes:
                     break;
                 case R.id.menu_navigationfather_cerrarsesion:
+                    //Eliminamos la sesion del dispositivo
+                    sharedPreferences.edit().putBoolean("active_session", false).apply();
                     cerrarSesion();
                     break;
             }

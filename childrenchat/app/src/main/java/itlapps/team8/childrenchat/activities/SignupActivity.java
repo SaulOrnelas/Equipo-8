@@ -1,11 +1,13 @@
 package itlapps.team8.childrenchat.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.button.MaterialButton;
@@ -19,11 +21,13 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 
+import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.UploadTask;
@@ -71,11 +75,15 @@ public class SignupActivity extends AppCompatActivity {
     //Variable que inicializa en true para determinar que al inicio todos los usuarios quieren foto
     private boolean quiereImagen = true;
 
+    private SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup_activity);
+
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         usuario = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -409,5 +417,27 @@ public class SignupActivity extends AppCompatActivity {
     private boolean seleccionoImagen() {
         return !imageViewPhoto.getDrawable().getConstantState().
                 equals(getResources().getDrawable(R.drawable.ic_avatar).getConstantState());
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        cerrarSesion();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                cerrarSesion();
+                break;
+        }
+        return true;
+    }
+
+    private void cerrarSesion() {
+        AuthUI.getInstance().signOut(this).addOnCompleteListener(task -> {
+            SignupActivity.this.finish();
+        });
     }
 }
