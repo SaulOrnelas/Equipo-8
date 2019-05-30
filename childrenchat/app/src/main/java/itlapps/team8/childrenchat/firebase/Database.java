@@ -56,6 +56,10 @@ public class Database {
         return USERS.child(uid).child("hijos");
     }
 
+    public static DatabaseReference obtenerContactos(String uid) {
+        return USERS.child(uid).child("contactos");
+    }
+
 
 
 }

@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                         if (usuario.propiedades.tipo.equals(TIPO_PADRE)) {
                             intent = new Intent(MainActivity.this, MainActivityFather.class);
                         } else if (usuario.propiedades.tipo.equals(TIPO_HIJO)) {
-                            //Intent de tipo hijo
+                            intent = new Intent(MainActivity.this, MainActivityFather.class);
                         }
                         startActivity(intent);
                         MainActivity.this.finish();
@@ -137,6 +137,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
                             //Enviar a primera pantalla
+                            Usuario usuario = dataSnapshot.getValue(Usuario.class);
+
+                            if (usuario.propiedades.tipo.equals(TIPO_PADRE)) {
+                                sharedPreferences.edit().putString("user_type", "padre").apply();
+                            } else {
+                                sharedPreferences.edit().putString("user_type", "hijo").apply();
+                            }
 
                             Intent intent = new Intent(MainActivity.this, MainActivityFather.class);
                             startActivity(intent);

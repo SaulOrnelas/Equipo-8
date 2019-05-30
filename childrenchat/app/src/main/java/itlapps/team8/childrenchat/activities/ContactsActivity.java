@@ -21,11 +21,17 @@ import java.util.List;
 import itlapps.team8.childrenchat.R;
 import itlapps.team8.childrenchat.adapters.RVUsersAdapter;
 import itlapps.team8.childrenchat.firebase.Database;
+import itlapps.team8.childrenchat.model.Usuario;
 
 public class ContactsActivity extends AppCompatActivity {
     private FirebaseUser usuario;
-    private RecyclerView recyclerViewContacts;
-    private RVUsersAdapter adapter;
+    private RecyclerView recyclerViewYourContacts;
+    private RecyclerView recyclerViewOtherContacts;
+    private RVUsersAdapter adapterYourContacts;
+    private RVUsersAdapter adapterOtherContacts;
+
+    private static final String TIPO_PADRE = "padre";
+    private static final String TIPO_HIJO = "hijo";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,24 +41,63 @@ public class ContactsActivity extends AppCompatActivity {
 
         usuario = FirebaseAuth.getInstance().getCurrentUser();
 
-        //recyclerViewContacts = findViewById(R.id.rv_contacts);
-        recyclerViewContacts.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewYourContacts = findViewById(R.id.rv_your_contacts);
+        recyclerViewYourContacts.setLayoutManager(new LinearLayoutManager(this));
+
+        recyclerViewOtherContacts = findViewById(R.id.rv_other_contacts);
+        recyclerViewOtherContacts.setLayoutManager(new LinearLayoutManager(this));
 
         cargarInformacion();
     }
 
     private void cargarInformacion() {
-        Database.USERS.addListenerForSingleValueEvent(new ValueEventListener() {
+        Database.obtenerContactos(usuario.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                List<String> keys = new ArrayList<>();
+                final List<String> keys = new ArrayList<>();
 
                 for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
                     keys.add(userSnapshot.getKey());
                 }
 
-                adapter = new RVUsersAdapter(ContactsActivity.this, keys);
-                recyclerViewContacts.setAdapter(adapter);
+                adapterYourContacts = new RVUsersAdapter(ContactsActivity.this, keys);
+                recyclerViewYourContacts.setAdapter(adapterYourContacts);
+
+                Database.USERS.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<String> keys1 = new ArrayList<>();
+
+                        for (DataSnapshot userSnapshot2 : dataSnapshot.getChildren()) {
+
+                            if (!keys.contains(userSnapshot2.getKey())) {
+                                Database.obtenerUsuario(userSnapshot2.getKey()).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        Usuario usuarioFromDatabase = dataSnapshot.getValue(Usuario.class);
+
+                                        if (usuarioFromDatabase.propiedades.tipo.equals(TIPO_PADRE) && !usuarioFromDatabase.propiedades.email.equals(usuario.getEmail())) {
+                                            keys1.add(userSnapshot2.getKey());
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
+                            }
+                        }
+
+                        adapterOtherContacts = new RVUsersAdapter(ContactsActivity.this, keys1);
+                        recyclerViewOtherContacts.setAdapter(adapterOtherContacts);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
 
             @Override

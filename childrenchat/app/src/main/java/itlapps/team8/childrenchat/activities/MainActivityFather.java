@@ -52,6 +52,10 @@ public class MainActivityFather extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
 
+
+    private static final String TIPO_PADRE = "padre";
+    private static final String TIPO_HIJO = "hijo";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,9 +75,12 @@ public class MainActivityFather extends AppCompatActivity {
 
         configureToolbar();
 
+
+
         navigationView = findViewById(R.id.activity_main_father_navigationview);
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
+
             switch(id)
             {
                 case R.id.menu_navigationfather_contactos:
@@ -109,6 +116,14 @@ public class MainActivityFather extends AppCompatActivity {
         textViewNombre = headerLayout.findViewById(R.id.nav_header_father_tvname);
         textViewCurp = headerLayout.findViewById(R.id.nav_header_father_tvcurp);
         textViewEmail = headerLayout.findViewById(R.id.nav_header_father_tvemail);
+
+
+        navigationView.getMenu().getItem(2).setVisible(false);
+        navigationView.getMenu().getItem(3).setVisible(false);
+
+        if (sharedPreferences.getString("user_type", "padre").equals(TIPO_HIJO)) {
+            navigationView.getMenu().getItem(1).setVisible(false);
+        }
 
         cargarInformacionHeader();
 
@@ -160,6 +175,8 @@ public class MainActivityFather extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+
+
         if(toogle.onOptionsItemSelected(item))
             return true;
 
@@ -168,9 +185,9 @@ public class MainActivityFather extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_searchfather, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        //getMenuInflater().inflate(R.menu.menu_searchfather, menu);
+        //MenuItem searchItem = menu.findItem(R.id.action_search);
+        //SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         // Configure the search info and add any event listeners
 
         return super.onCreateOptionsMenu(menu);
