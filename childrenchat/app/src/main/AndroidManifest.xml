@@ -65,6 +65,8 @@
             android:theme="@style/AppTheme.Slider"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 
+        <activity android:name=".activities.SolicitudesAcvitiydos"/>
+
     </application>
 
 </manifest>
