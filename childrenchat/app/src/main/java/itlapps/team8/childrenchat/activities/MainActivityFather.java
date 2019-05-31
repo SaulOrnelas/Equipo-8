@@ -68,6 +68,8 @@ public class MainActivityFather extends AppCompatActivity {
     private RecyclerView recyclerViewChats;
     private RVChatsAdapter adapter;
 
+    private TextView textViewEmptyChats;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +90,7 @@ public class MainActivityFather extends AppCompatActivity {
         configureToolbar();
 
         recyclerViewChats = findViewById(R.id.rv_chats);
+        textViewEmptyChats = findViewById(R.id.tv_emptychats);
         recyclerViewChats.setLayoutManager(new LinearLayoutManager(this));
 
         navigationView = findViewById(R.id.activity_main_father_navigationview);
@@ -143,7 +146,6 @@ public class MainActivityFather extends AppCompatActivity {
         }
 
         cargarInformacionHeader();
-
 
         actualizarListaChats();
 
@@ -237,6 +239,14 @@ public class MainActivityFather extends AppCompatActivity {
 
                 adapter = new RVChatsAdapter(MainActivityFather.this, chats);
                 recyclerViewChats.setAdapter(adapter);
+
+                if (chats.size() > 0) {
+                    recyclerViewChats.setVisibility(View.VISIBLE);
+                    textViewEmptyChats.setVisibility(View.GONE);
+                } else {
+                    recyclerViewChats.setVisibility(View.GONE);
+                    textViewEmptyChats.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override

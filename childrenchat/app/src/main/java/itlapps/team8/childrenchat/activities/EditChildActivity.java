@@ -147,7 +147,7 @@ public class EditChildActivity extends AppCompatActivity {
                             }
                         }
 
-                        RVSetContactAdapter adapter = new RVSetContactAdapter(EditChildActivity.this, keys);
+                        RVSetContactAdapter adapter = new RVSetContactAdapter(EditChildActivity.this, keys, childKey);
                         recyclerViewContacts.setAdapter(adapter);
                     }
 

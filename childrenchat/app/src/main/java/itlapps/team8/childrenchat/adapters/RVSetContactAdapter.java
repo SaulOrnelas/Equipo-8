@@ -35,10 +35,12 @@ public class RVSetContactAdapter extends RecyclerView.Adapter<RVSetContactAdapte
     private FirebaseUser usuarioGlobal;
     private Context context;
     private List<String> keys;
+    private String keyChild;
 
-    public RVSetContactAdapter(Context context, List<String> keys) {
+    public RVSetContactAdapter(Context context, List<String> keys, String keyChild) {
         this.context = context;
         this.keys = keys;
+        this.keyChild = keyChild;
 
         usuarioGlobal = FirebaseAuth.getInstance().getCurrentUser();
     }
@@ -87,8 +89,37 @@ public class RVSetContactAdapter extends RecyclerView.Adapter<RVSetContactAdapte
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 //Implementar asignacion de contacto
+
+                                Database.USERS.child(keys.get(i)).child("contactos").child(keyChild).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        if (!dataSnapshot.exists()) {
+                                            Database.USERS.child(keys.get(i)).child("contactos").child(keyChild).setValue(keyChild);
+                                            Database.USERS.child(keyChild).child("contactos").child(keys.get(i)).setValue(keys.get(i));
+                                        } else {
+                                            AlertDialog.Builder yaExiste = new AlertDialog.Builder(context, R.style.AlertDialog);
+                                            yaExiste.setTitle("Alerta");
+                                            yaExiste.setMessage("El usuario al cual quieres asignarle a tu hijo ya se encuentra registrado");
+                                            yaExiste.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+
+                                            yaExiste.show();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
                             }
                         });
+
+                        confirmacion.show();
                     }
                 });
 
