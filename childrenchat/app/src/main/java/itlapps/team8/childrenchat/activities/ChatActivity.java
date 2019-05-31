@@ -9,13 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.r0adkll.slidr.Slidr;
 
@@ -55,33 +58,42 @@ public class ChatActivity extends AppCompatActivity {
 
         recyclerViewMessages.setLayoutManager(new LinearLayoutManager(this));
 
-        Database.USERS.child(usuario.getUid()).child("chats").addListenerForSingleValueEvent(new ValueEventListener() {
+        ((LinearLayoutManager) recyclerViewMessages.getLayoutManager()).setStackFromEnd(true);
+
+        Database.USERS.child(usuario.getUid()).child("chats").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot chatSnapshot : dataSnapshot.getChildren()) {
                     ChatDelNodoUsuario chat = chatSnapshot.getValue(ChatDelNodoUsuario.class);
 
-                    if (chat.keyContacto.equals(keyOfOtherContact)) {
-                        Database.CHATS.child(chat.key).child("mensajes").addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                List<Mensaje> mensajes = new ArrayList<>();
+                    try {
+                        if (chat.keyContacto.equals(keyOfOtherContact)) {
+                            Database.CHATS.child(chat.key).child("mensajes").addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    List<Mensaje> mensajes = new ArrayList<>();
 
-                                for (DataSnapshot dataSnapshotMensaje : dataSnapshot.getChildren()) {
-                                    Mensaje mensaje = dataSnapshotMensaje.getValue(Mensaje.class);
-                                    mensajes.add(mensaje);
+                                    for (DataSnapshot dataSnapshotMensaje : dataSnapshot.getChildren()) {
+                                        Mensaje mensaje = dataSnapshotMensaje.getValue(Mensaje.class);
+                                        mensajes.add(mensaje);
+                                    }
+
+                                    adapter = new RVMensajesAdapter(ChatActivity.this, mensajes);
+                                    recyclerViewMessages.setAdapter(adapter);
+
+
                                 }
 
-                                adapter = new RVMensajesAdapter(ChatActivity.this, mensajes);
-                                recyclerViewMessages.setAdapter(adapter);
-                            }
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
+                                }
+                            });
+                            break;
+                        }
 
-                            }
-                        });
-                        break;
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
                     }
                 }
             }
@@ -97,9 +109,12 @@ public class ChatActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (!TextUtils.isEmpty(editTextMessage.getText().toString())) {
                     Database.enviarMensaje(editTextMessage.getText().toString(), usuario.getUid(), keyOfOtherContact);
+                    editTextMessage.setText("");
+                    ((LinearLayoutManager) recyclerViewMessages.getLayoutManager()).setStackFromEnd(true);
                 }
             }
         });
+
     }
 
     @Override

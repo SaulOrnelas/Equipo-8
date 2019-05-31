@@ -58,6 +58,13 @@
             android:theme="@style/AppTheme.Slider"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 
+        <activity
+            android:name=".activities.SolicitudesActivity"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.MainActivityFather"
+            android:theme="@style/AppTheme.Slider"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+
     </application>
 
 </manifest>

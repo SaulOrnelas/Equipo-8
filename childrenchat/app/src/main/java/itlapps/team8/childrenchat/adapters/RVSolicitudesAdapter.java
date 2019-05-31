@@ -27,30 +27,31 @@ import itlapps.team8.childrenchat.R;
 import itlapps.team8.childrenchat.activities.ChatActivity;
 import itlapps.team8.childrenchat.firebase.Database;
 import itlapps.team8.childrenchat.firebase.Storage;
+import itlapps.team8.childrenchat.model.Solicitud;
 import itlapps.team8.childrenchat.model.Usuario;
 
-public class RVUsersAdapter extends RecyclerView.Adapter<RVUsersAdapter.RVChildsAdapterViewHolder> {
+public class RVSolicitudesAdapter extends RecyclerView.Adapter<RVSolicitudesAdapter.RVSolicitudesdapterViewHolder> {
     private FirebaseUser usuarioGlobal;
     private Context context;
-    private List<String> keys;
+    private List<Solicitud> solicitudes;
 
-    public RVUsersAdapter(Context context, List<String> keys) {
+    public RVSolicitudesAdapter(Context context, List<Solicitud> solicitudes) {
         this.context = context;
-        this.keys = keys;
+        this.solicitudes = solicitudes;
 
         usuarioGlobal = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     @NonNull
     @Override
-    public RVChildsAdapterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public RVSolicitudesdapterViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_rv_user, viewGroup, false);
-        return new RVChildsAdapterViewHolder(view);
+        return new RVSolicitudesdapterViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RVChildsAdapterViewHolder rvChildsAdapterViewHolder, int i) {
-        Database.obtenerUsuario(keys.get(i)).addListenerForSingleValueEvent(new ValueEventListener() {
+    public void onBindViewHolder(@NonNull RVSolicitudesdapterViewHolder rvChildsAdapterViewHolder, int i) {
+        Database.obtenerUsuario(solicitudes.get(i).keyUsuarioEnviado).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 Usuario usuario = dataSnapshot.getValue(Usuario.class);
@@ -68,34 +69,6 @@ public class RVUsersAdapter extends RecyclerView.Adapter<RVUsersAdapter.RVChilds
                         }
                     }
                 });
-
-                rvChildsAdapterViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Database.obtenerContactos(usuarioGlobal.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (DataSnapshot dataSnapshotContact : dataSnapshot.getChildren()) {
-                                    if (usuario.propiedades.key.equals(dataSnapshotContact.getKey())) {
-                                        Intent intent = new Intent(context, ChatActivity.class);
-                                        intent.putExtra("key_of_other_contact", usuario.propiedades.key);
-                                        context.startActivity(intent);
-                                        ((AppCompatActivity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                                        break;
-                                    }
-                                }
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
-                    }
-                });
-
-
             }
 
             @Override
@@ -107,20 +80,30 @@ public class RVUsersAdapter extends RecyclerView.Adapter<RVUsersAdapter.RVChilds
 
     @Override
     public int getItemCount() {
-        return keys.size();
+        return solicitudes.size();
     }
 
     public String getKeyOfUser(int position) {
-        return keys.get(position);
+        return solicitudes.get(position).keyUsuarioEnviado;
     }
 
-    public class RVChildsAdapterViewHolder extends RecyclerView.ViewHolder {
+    public String getKeyOfSolicitud(int position) {
+        return solicitudes.get(position).key;
+    }
+
+    public void eliminarSolicitud(int position) {
+        solicitudes.remove(position);
+        notifyDataSetChanged();
+    }
+
+
+    public class RVSolicitudesdapterViewHolder extends RecyclerView.ViewHolder {
         private CircleImageView imageViewUserPhoto;
         private TextView textViewUserName;
         private TextView textViewUserCurp;
         private TextView textViewUserEmail;
 
-        public RVChildsAdapterViewHolder(View view) {
+        public RVSolicitudesdapterViewHolder(View view) {
             super(view);
 
             imageViewUserPhoto = view.findViewById(R.id.imageview_userphoto);

@@ -188,6 +188,19 @@ android:background="@color/background_material_light">
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/child_edit_actualizar" />
+
+            <android.support.design.button.MaterialButton
+                android:id="@+id/mt_asign_contact"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:onClick="recoveryEmail"
+                android:text="Asignar a contacto"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/child_edit_recovery" />
         </android.support.constraint.ConstraintLayout>
 
     </ScrollView>

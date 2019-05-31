@@ -13,15 +13,10 @@
 
         <include layout="@layout/toolbar_father" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="130dp"
-            android:layout_marginTop="200dp"
-            android:text="Chats"
-            android:textSize="50dp" />
-
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_chats"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
     <android.support.design.widget.NavigationView

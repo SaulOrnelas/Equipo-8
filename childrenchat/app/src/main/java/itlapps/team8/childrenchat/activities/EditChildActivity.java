@@ -11,6 +11,9 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -27,8 +30,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.r0adkll.slidr.Slidr;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 import itlapps.team8.childrenchat.R;
+import itlapps.team8.childrenchat.adapters.RVSetContactAdapter;
+import itlapps.team8.childrenchat.adapters.RVUsersAdapter;
 import itlapps.team8.childrenchat.extras.CCUtil;
 import itlapps.team8.childrenchat.firebase.Database;
 import itlapps.team8.childrenchat.firebase.Storage;
@@ -52,6 +60,8 @@ public class EditChildActivity extends AppCompatActivity {
     private RadioButton radioButtonHombre;
     private RadioButton radioButtonMujer;
     private Boolean isPictureUpdated;
+
+    private MaterialButton materialButtonAsignarContacto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,6 +123,44 @@ public class EditChildActivity extends AppCompatActivity {
         });
 
         imageViewPhoto.setOnClickListener(v -> seleccionarFoto());
+
+        materialButtonAsignarContacto = findViewById(R.id.mt_asign_contact);
+
+        materialButtonAsignarContacto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final BottomSheetDialog dialog = new BottomSheetDialog(EditChildActivity.this);
+                LayoutInflater inflater = getLayoutInflater();
+                View viewSelect = inflater.inflate(R.layout.menu_selectcontact, null);
+
+                RecyclerView recyclerViewContacts = viewSelect.findViewById(R.id.rv_contacts);
+                recyclerViewContacts.setLayoutManager(new LinearLayoutManager(EditChildActivity.this));
+
+                Database.USERS.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).child("contactos").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        List<String> keys = new ArrayList<>();
+
+                        for (DataSnapshot dataSnapshotUsuario : dataSnapshot.getChildren()) {
+                            if (!dataSnapshotUsuario.getKey().equals(childKey)) {
+                                keys.add(dataSnapshotUsuario.getKey());
+                            }
+                        }
+
+                        RVSetContactAdapter adapter = new RVSetContactAdapter(EditChildActivity.this, keys);
+                        recyclerViewContacts.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+                dialog.setContentView(viewSelect);
+                dialog.show();
+            }
+        });
 
     }
 

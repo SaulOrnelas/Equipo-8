@@ -13,7 +13,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -31,12 +34,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import itlapps.team8.childrenchat.R;
+import itlapps.team8.childrenchat.adapters.RVChatsAdapter;
 import itlapps.team8.childrenchat.firebase.Database;
 import itlapps.team8.childrenchat.firebase.Storage;
+import itlapps.team8.childrenchat.model.ChatDelNodoUsuario;
 import itlapps.team8.childrenchat.model.Usuario;
 
 public class MainActivityFather extends AppCompatActivity {
@@ -55,6 +64,9 @@ public class MainActivityFather extends AppCompatActivity {
 
     private static final String TIPO_PADRE = "padre";
     private static final String TIPO_HIJO = "hijo";
+
+    private RecyclerView recyclerViewChats;
+    private RVChatsAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -75,7 +87,8 @@ public class MainActivityFather extends AppCompatActivity {
 
         configureToolbar();
 
-
+        recyclerViewChats = findViewById(R.id.rv_chats);
+        recyclerViewChats.setLayoutManager(new LinearLayoutManager(this));
 
         navigationView = findViewById(R.id.activity_main_father_navigationview);
         navigationView.setNavigationItemSelectedListener(item -> {
@@ -96,6 +109,10 @@ public class MainActivityFather extends AppCompatActivity {
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     break;
                 case R.id.menu_navigationfather_solicitudes:
+                    drawerLayout.closeDrawers();
+                    Intent intentSolicitudes = new Intent(this, SolicitudesActivity.class);
+                    startActivity(intentSolicitudes);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     break;
                 case R.id.menu_navigationfather_ajustes:
                     break;
@@ -118,14 +135,17 @@ public class MainActivityFather extends AppCompatActivity {
         textViewEmail = headerLayout.findViewById(R.id.nav_header_father_tvemail);
 
 
-        navigationView.getMenu().getItem(2).setVisible(false);
         navigationView.getMenu().getItem(3).setVisible(false);
 
         if (sharedPreferences.getString("user_type", "padre").equals(TIPO_HIJO)) {
             navigationView.getMenu().getItem(1).setVisible(false);
+            navigationView.getMenu().getItem(2).setVisible(false);
         }
 
         cargarInformacionHeader();
+
+
+        actualizarListaChats();
 
     }
 
@@ -201,5 +221,34 @@ public class MainActivityFather extends AppCompatActivity {
             startActivity(intent);
             MainActivityFather.this.finish();
         });
+    }
+
+    private void actualizarListaChats() {
+        Database.obtenerChats(usuario.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<ChatDelNodoUsuario> chats = new ArrayList<>();
+
+                for (DataSnapshot dataSnapshotChat : dataSnapshot.getChildren()) {
+                    ChatDelNodoUsuario chat = dataSnapshotChat.getValue(ChatDelNodoUsuario.class);
+                    //Log.e("chat", new Gson().toJson(chat));
+                    chats.add(chat);
+                }
+
+                adapter = new RVChatsAdapter(MainActivityFather.this, chats);
+                recyclerViewChats.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        actualizarListaChats();
     }
 }

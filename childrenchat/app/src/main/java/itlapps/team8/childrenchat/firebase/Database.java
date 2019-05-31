@@ -2,6 +2,7 @@ package itlapps.team8.childrenchat.firebase;
 
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,9 +52,33 @@ public class Database {
         USERS.child(referencia.getKey()).child("contactos").child(uidPadre).setValue(uidPadre);
         //Esto es un comentario
     }
-    public static void eliminarHijo(String uidPadre, String uidHijo){
+
+    public static void eliminarHijo(String uidPadre, String uidHijo) {
         USERS.child(uidPadre).child("contactos").child(uidHijo).removeValue();
         USERS.child(uidPadre).child("hijos").child(uidHijo).removeValue();
+        //Borrar chat con ese hijo
+        USERS.child(uidPadre).child("chats").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getChildrenCount() > 0) {
+                    for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
+                        ChatDelNodoUsuario chatDelNodoUsuario = dataSnapshot1.getValue(ChatDelNodoUsuario.class);
+
+                        if (chatDelNodoUsuario.keyContacto.equals(uidHijo)) {
+                            CHATS.child(chatDelNodoUsuario.key).setValue(null);
+                            USERS.child(uidPadre).child("chats").child(dataSnapshot1.getKey()).setValue(null);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         USERS.child(uidHijo).removeValue();
     }
 
@@ -74,6 +99,11 @@ public class Database {
     }
 
     public static void enviarMensaje(String mensajeString, String keyOfContact1, String keyOfContact2) {
+        Log.e("key_1", keyOfContact1);
+        Log.e("key_2", keyOfContact2);
+
+        final boolean[] esta = {false};
+
         USERS.child(keyOfContact1).child("chats").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -86,21 +116,29 @@ public class Database {
                             DatabaseReference mensaje = CHATS.child(chatDelNodoUsuario.key).child("mensajes").push();
                             mensaje.child("key_contacto").setValue(keyOfContact1);
                             mensaje.child("mensaje").setValue(mensajeString);
-                        } else {
-                            DatabaseReference chatReference = CHATS.push();
-                            DatabaseReference mensaje = CHATS.child(chatReference.getKey()).child("mensajes").push();
-                            mensaje.child("key_contacto").setValue(keyOfContact1);
-                            mensaje.child("mensaje").setValue(mensajeString);
+                            esta[0] = true;
+                            break;
+                        } /*else {
 
-                            DatabaseReference chatOfUser1Reference = USERS.child(keyOfContact1).child("chats").push();
-                            chatOfUser1Reference.child("key").setValue(chatReference.getKey());
-                            chatOfUser1Reference.child("key_contacto").setValue(keyOfContact2);
-
-                            DatabaseReference chatOfUser2Reference = USERS.child(keyOfContact2).child("chats").push();
-                            chatOfUser2Reference.child("key").setValue(chatReference.getKey());
-                            chatOfUser2Reference.child("key_contacto").setValue(keyOfContact1);
-                        }
+                        }*/
                     }
+
+                    if (!esta[0]) {
+                        DatabaseReference chatReference = CHATS.push();
+                        DatabaseReference mensaje = CHATS.child(chatReference.getKey()).child("mensajes").push();
+                        mensaje.child("key_contacto").setValue(keyOfContact1);
+                        mensaje.child("mensaje").setValue(mensajeString);
+
+                        DatabaseReference chatOfUser1Reference = USERS.child(keyOfContact1).child("chats").push();
+                        chatOfUser1Reference.child("key").setValue(chatReference.getKey());
+                        chatOfUser1Reference.child("key_contacto").setValue(keyOfContact2);
+
+                        DatabaseReference chatOfUser2Reference = USERS.child(keyOfContact2).child("chats").push();
+                        chatOfUser2Reference.child("key").setValue(chatReference.getKey());
+                        chatOfUser2Reference.child("key_contacto").setValue(keyOfContact1);
+
+                    }
+
                 } else {
                     DatabaseReference chatReference = CHATS.push();
                     DatabaseReference mensaje = CHATS.child(chatReference.getKey()).child("mensajes").push();
@@ -122,6 +160,20 @@ public class Database {
 
             }
         });
+    }
+
+    public static void enviarSolicitud(String keyContactoEnviado, String keyContactoRecibido) {
+        //Creamos la solicitud en el nodo del usuario que envia
+        DatabaseReference nuevaSolicitudContactoEnviado = USERS.child(keyContactoEnviado).child("solicitudes_enviadas").push();
+        nuevaSolicitudContactoEnviado.child("key").setValue(nuevaSolicitudContactoEnviado.getKey());
+        nuevaSolicitudContactoEnviado.child("key_contacto_enviado").setValue(keyContactoEnviado);
+        nuevaSolicitudContactoEnviado.child("key_contacto_recibido").setValue(keyContactoRecibido);
+
+        //Creamos la solicitud en el nodo del usuario que recibe
+        DatabaseReference nuevaSolicitudContactoRecibido = USERS.child(keyContactoRecibido).child("solicitudes_recibidas").push();
+        nuevaSolicitudContactoRecibido.child("key").setValue(nuevaSolicitudContactoRecibido.getKey());
+        nuevaSolicitudContactoRecibido.child("key_contacto_enviado").setValue(keyContactoEnviado);
+        nuevaSolicitudContactoRecibido.child("key_contacto_recibido").setValue(keyContactoRecibido);
     }
 
 }
