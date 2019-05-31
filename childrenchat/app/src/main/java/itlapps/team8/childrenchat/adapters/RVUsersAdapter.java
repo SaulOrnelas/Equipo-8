@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
@@ -22,18 +24,21 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import itlapps.team8.childrenchat.R;
-import itlapps.team8.childrenchat.activities.EditChildActivity;
+import itlapps.team8.childrenchat.activities.ChatActivity;
 import itlapps.team8.childrenchat.firebase.Database;
 import itlapps.team8.childrenchat.firebase.Storage;
 import itlapps.team8.childrenchat.model.Usuario;
 
 public class RVUsersAdapter extends RecyclerView.Adapter<RVUsersAdapter.RVChildsAdapterViewHolder> {
+    private FirebaseUser usuarioGlobal;
     private Context context;
     private List<String> keys;
 
     public RVUsersAdapter(Context context, List<String> keys) {
         this.context = context;
         this.keys = keys;
+
+        usuarioGlobal = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     @NonNull
@@ -59,7 +64,34 @@ public class RVUsersAdapter extends RecyclerView.Adapter<RVUsersAdapter.RVChilds
                     public void onComplete(@NonNull Task<Uri> task) {
                         try {
                             Picasso.get().load(task.getResult()).fit().into(rvChildsAdapterViewHolder.imageViewUserPhoto);
-                        } catch (Exception exception) {}
+                        } catch (Exception exception) {
+                        }
+                    }
+                });
+
+                rvChildsAdapterViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Database.obtenerContactos(usuarioGlobal.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                for (DataSnapshot dataSnapshotContact : dataSnapshot.getChildren()) {
+                                    if (usuario.propiedades.key.equals(dataSnapshotContact.getKey())) {
+                                        Intent intent = new Intent(context, ChatActivity.class);
+                                        intent.putExtra("key_of_other_contact", usuario.propiedades.key);
+                                        context.startActivity(intent);
+                                        ((AppCompatActivity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                                        break;
+                                    }
+                                }
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
                     }
                 });
 

@@ -52,6 +52,11 @@
             android:parentActivityName=".activities.MainActivityFather"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Slider" />
+        <activity
+            android:name=".activities.ChatActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.Slider"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
 
     </application>
 
